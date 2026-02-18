@@ -1,0 +1,72 @@
+export class CreateTripPage extends BasePage {
+  constructor(page) {
+    super(page);
+    this.startingPoint = page.locator("#origin");
+    this.destinationPoint = page.locator("#destination");
+    this.waypointsDropdown = page
+      .locator("rt-autocomplete-list button")
+      .first();
+    this.quickLaunchOption = page.locator("div.trip-onboarding-type").first();
+    this.autopilotOption = page.locator("div.trip-onboarding-type").last();
+    this.startDate = page.locator("#start_date");
+    this.startDateCalendar = page.locator("div.rt-datepicker-view");
+
+    this.endDate = page.locator("#end_date");
+    this.createTripBtn = page.getByRole("button", { name: "Create Trip" });
+    this.addStopsField = page.getByRole("placeholder", { name: "Add stops" });
+    this.launchTripBtn = page.getByRole("button", { name: "Launch trip" });
+
+    // itinerary section
+    this.itineraryBtn = page.locator("#sub-navigation__button--itinerary");
+  }
+
+  async setStartPoint(startPoint) {
+    await this.startingPoint.fill(startPoint);
+    await this.waypointsDropdown.click();
+  }
+
+  async setDestination(destination) {
+    await this.destinationPoint.fill(destination);
+    await this.waypointsDropdown.click();
+  }
+
+  async selectStartDate() {
+    await this.enterStartDate();
+  }
+
+  async launchTrip() {
+    await launchTripBtn.click();
+  }
+
+  async createTrip() {
+    await this.createTripBtn.click();
+  }
+
+  async enterStartDate() {
+    const currentDate = new Date();
+    const startDateValue = currentDate.getDate();
+
+    await this.startDate.click();
+    await this.startDateCalendar
+      .locator(`button:has-text("${startDateValue}")`)
+      .click();
+  }
+
+  async createQuiclLaunchTrip(startPoint, destination) {
+    await this.setStartPoint(startPoint);
+    await this.setDestination(destination);
+    await this.selectStartDate();
+    await this.enterStartDate();
+    await this.createTrip();
+  }
+
+  async createTripWithAutopilot(startPoint, destination) {
+    await this.setStartPoint(startPoint);
+    await this.setDestination(destination);
+    await this.autopilotOption.click();
+    await this.selectStartDate();
+    await this.enterStartDate();
+    const autopilotTripPage = await this.clickAndSwitchToNewTab(createTripBtn);
+    return autopilotTripPage;
+  }
+}
