@@ -16,6 +16,6 @@ export class ItineraryPage {
       detailsBtn: page.getByRole("button", { name: "Details" }),
       vehiclesCard: page.locator("div.details-vehicle-card"),
     };
-    addToTripBtn = page.locator('[data-id="submit-form"]');
+    this.addToTripBtn = page.locator('[data-id="submit-form"]');
   }
 }

@@ -1,11 +1,11 @@
 export class AutopilotTripPage {
   constructor(page) {
     this.page = page;
-    getStartedBtn = page.getByRole("button", { name: "Get started" });
-    startDate = page.locator("#start_date");
-    endDate = page.locator("#end_date");
-    backBtn = page.getByRole("button", { name: "Back" });
-    nextBtn = page.getByRole("button", { name: "Next" });
+    this.getStartedBtn = page.getByRole("button", { name: "Get started" });
+    this.startDate = page.locator("#start_date");
+    this.endDate = page.locator("#end_date");
+    this.backBtn = page.getByRole("button", { name: "Back" });
+    this.nextBtn = page.getByRole("button", { name: "Next" });
     this.attractionsSection = {
       roadsideAttractions: page.locator("#activity-type[roadside-attractions]"),
       offbeatAttractions: page.locator("#activity-type[offbeat-attractions]"),
@@ -25,8 +25,8 @@ export class AutopilotTripPage {
       monuments: page.locator("#activity-type[monuments]"),
       filmingLocations: page.locator("activity-type[filming-locations]"),
     };
-    waipoints = page.locator("#origin");
-    findPlacesOnMyOwn = page.locator("div", {
+    this.waipoints = page.locator("#origin");
+    this.findPlacesOnMyOwn = page.locator("div", {
       hasText: "I’ll find places on my own",
     });
   }

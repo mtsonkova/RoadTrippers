@@ -1,10 +1,13 @@
+import { BasePage } from "./BasePage";
+import { waypoints } from "../test_data/testData";
+
 export class CreateTripPage extends BasePage {
   constructor(page) {
     super(page);
     this.startingPoint = page.locator("#origin");
     this.destinationPoint = page.locator("#destination");
     this.waypointsDropdown = page
-      .locator("rt-autocomplete-list button")
+      .locator("div.rt-autocomplete-list button")
       .first();
     this.quickLaunchOption = page.locator("div.trip-onboarding-type").first();
     this.autopilotOption = page.locator("div.trip-onboarding-type").last();
@@ -38,10 +41,6 @@ export class CreateTripPage extends BasePage {
     await launchTripBtn.click();
   }
 
-  async createTrip() {
-    await this.createTripBtn.click();
-  }
-
   async enterStartDate() {
     const currentDate = new Date();
     const startDateValue = currentDate.getDate();
@@ -52,15 +51,17 @@ export class CreateTripPage extends BasePage {
       .click();
   }
 
-  async createQuiclLaunchTrip(startPoint, destination) {
+  async createQuickLaunchTrip(startPoint, destination) {
     await this.setStartPoint(startPoint);
     await this.setDestination(destination);
     await this.selectStartDate();
     await this.enterStartDate();
-    await this.createTrip();
+    await this.addMaxNumWaypoints();
+    await this.createTripBtn.click();
   }
 
   async createTripWithAutopilot(startPoint, destination) {
+    await this.createTripBtn.click();
     await this.setStartPoint(startPoint);
     await this.setDestination(destination);
     await this.autopilotOption.click();
@@ -68,5 +69,12 @@ export class CreateTripPage extends BasePage {
     await this.enterStartDate();
     const autopilotTripPage = await this.clickAndSwitchToNewTab(createTripBtn);
     return autopilotTripPage;
+  }
+
+  async addMaxNumWaypoints() {
+    for (let i = 1; i < waypoints.length - 2; i++) {
+      await this.addStopsField.fill(waypoints[i]);
+      await this.waypointsDropdown.click();
+    }
   }
 }

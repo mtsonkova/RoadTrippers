@@ -106,11 +106,35 @@ export class BasePage {
       locatorObj.click(),
     ]);
 
-    await newPage.waitForLoadState();
+    await newPage.waitForLoadState("domcontentloaded"); // DOM is ready
+    await newPage.waitForLoadState("load"); // Images/resources done
+    // Let the app settle briefly without blocking on network
+    await newPage.waitForTimeout(500);
     return newPage;
   }
 
   async createTrip(createTripBtn) {
     await createTripBtn.click();
+  }
+
+  async handlePromoIframe(page) {
+    const targetPage = page ?? this.page;
+
+    try {
+      const frame = targetPage.frameLocator("iframe").first();
+      const promoCloseBtn = frame.locator("div.c1iayu8k.chcmyku button");
+
+      await promoCloseBtn.waitFor({ state: "visible", timeout: 15000 });
+      await promoCloseBtn.click();
+      console.log("Promo iframe closed successfully");
+    } catch (error) {
+      if (
+        !error.message.includes("Timeout") &&
+        !error.message.includes("timeout")
+      ) {
+        throw error;
+      }
+      console.log("Promo iframe not found or not visible");
+    }
   }
 }
