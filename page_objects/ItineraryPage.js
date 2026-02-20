@@ -1,3 +1,4 @@
+import {expect} from "@playwright/test";
 export class ItineraryPage {
   constructor(page) {
     this.page = page;
@@ -17,5 +18,26 @@ export class ItineraryPage {
       vehiclesCard: page.locator("div.details-vehicle-card"),
     };
     this.addToTripBtn = page.locator('[data-id="submit-form"]');
+    this.closeModalBtn = page.locator('div.rt-modal-content button.rt-modal-close-button');
+    this.mapActionBar =  {
+      myTripsBtn: page.locator('div#map-action-bar button.my-trips-button'),
+    }
+    this.tripCard = page.locator('div.rt-trip-card-content');
+    this.tripName = page.locator('h3.rt-trip-card-name');
   }
+
+  async closeExploringModal() {
+    await this.closeModalBtn.click();
+ }
+
+ async verifyTripCreated() {
+  await this.mapActionBar.myTripsBtn.click();
+  await expect(this.tripCard).toBeVisible({ timeout: 5000 });
+ }
+
+
+ async getTripName(){
+ const tripName =  await this.tripName.textContent();
+ return tripName;
+ }
 }

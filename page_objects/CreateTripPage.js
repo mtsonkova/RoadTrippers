@@ -16,7 +16,7 @@ export class CreateTripPage extends BasePage {
 
     this.endDate = page.locator("#end_date");
     this.createTripBtn = page.getByRole("button", { name: "Create Trip" });
-    this.addStopsField = page.getByRole("placeholder", { name: "Add stops" });
+    this.addStopsField = page.locator("div.sidebar .rt-input");
     this.launchTripBtn = page.getByRole("button", { name: "Launch trip" });
 
     // itinerary section
@@ -56,7 +56,6 @@ export class CreateTripPage extends BasePage {
     await this.setDestination(destination);
     await this.selectStartDate();
     await this.enterStartDate();
-    await this.addMaxNumWaypoints();
     await this.createTripBtn.click();
   }
 
@@ -72,9 +71,27 @@ export class CreateTripPage extends BasePage {
   }
 
   async addMaxNumWaypoints() {
-    for (let i = 1; i < waypoints.length - 2; i++) {
-      await this.addStopsField.fill(waypoints[i]);
-      await this.waypointsDropdown.click();
-    }
+  let counter = 2;
+
+  for (let i = 1; i < waypoints.length - 2; i++) {
+    await this.addStopsField.click();
+    await this.addStopsField.type(waypoints[i]);
+
+    await this.waypointsDropdown.click();
+    await this.page.waitForTimeout(1000);
+    
+  }
+}
+
+async addWaypoint() {
+    await this.addStopsField.click();
+    await this.addStopsField.type(waypoints[1]);
+
+    await this.waypointsDropdown.click();
+    await this.page.waitForTimeout(1000);  
+}
+
+  async launchTrip() {
+    await this.launchTripBtn.click();
   }
 }

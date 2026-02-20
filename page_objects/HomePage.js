@@ -6,6 +6,7 @@ export class HomePage extends BasePage {
     this.loginLink = page.locator(
       "div.header-right.cell-shrink a.header-login",
     );
+    this.signOutLink = page.getByRole('link', {name: 'Sign out'});
     this.emailInput = page.locator("#login-username");
     this.passwordInput = page.locator("#login-password");
     this.loginButton = page.locator("#authorize-with-password-submit");
@@ -22,14 +23,34 @@ export class HomePage extends BasePage {
     }
   }
 
-  async;
+  
+async login(email, password) {
+  await this.loginLink.click();
+  await this.page.waitForLoadState('domcontentloaded');
 
-  async login(email, password) {
-    await this.loginLink.click();
-    await this.emailInput.fill(email);
-    await this.passwordInput.fill(password);
-    await this.loginButton.click();
+  await this.emailInput.waitFor({ state: 'visible' });
+  await this.emailInput.fill(email);
+
+  await this.passwordInput.waitFor({ state: 'visible' });
+  await this.passwordInput.fill(password);
+
+  await this.loginButton.click();
+
+  try {
+    // Wait for reCAPTCHA token to be populated before proceeding
+    await this.page.waitForFunction(() => {
+      const el = document.querySelector('textarea[name="g-recaptcha-response"]');
+      return el && el.value.length > 20;
+    }, { timeout: 10000 });
+
+    console.log('reCAPTCHA token populated, proceeding...');
+  } catch {
+    console.log('No reCAPTCHA token detected, continuing anyway...');
   }
+
+  // Now wait for actual successful navigation
+  await this.signOutLink.waitFor({state: 'visible'}, 8000)
+}
 
   async openUserProfile() {
     const userProfilePage = await this.clickAndSwitchToNewTab(
