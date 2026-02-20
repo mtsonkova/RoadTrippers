@@ -12,6 +12,7 @@ export class UserProfilePage extends BasePage {
       .locator("div.confirm div.actions div.red")
       .first();
     this.createTripBtn = page.getByRole("button", { name: "Create a trip" });
+    this.tripPlanner = page.getByRole("link", {name: "Trip Planner"});
   }
 
   async checkIfTripExists() {
@@ -85,5 +86,9 @@ async checkAndHandlePromoIframe(page) {
       }
       console.log("Promo iframe not found or not visible");
     }
+  }
+
+  async clickOnTripPlanner(){
+    await this.tripPlanner.click();
   }
 }

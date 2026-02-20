@@ -29,8 +29,9 @@ export class CreateTripPage extends BasePage {
 
      this.findPlacesOnMyOwn = page.locator("div.sidebar-actions-buttons button:nth-child(2) div.rt-button-label");
 
-    this.nextBtn = page.locator('.panel-actions button').last()
-    this.nextBtnPlacesToVisit = page.locator('div.rt-button-label span:nth-child(1)')
+    this.nextBtn = page.locator('.panel-actions button').last();
+    this.nextBtnPlacesToVisit = page.locator('div.rt-button-label span:nth-child(1)');
+    this.tripLimitMsg = page.locator('#membership-modal h2');
   }
 
   async setStartPoint(startPoint) {
@@ -121,5 +122,10 @@ async addWaypoint() {
 
   async findMyOwnPlaces() {
     await this.findPlacesOnMyOwn.click();
+  }
+
+  async getTripLimitMsg() {
+    const msg = await this.tripLimitMsg.textContent();
+    return msg
   }
 }

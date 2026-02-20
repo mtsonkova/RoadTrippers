@@ -131,6 +131,19 @@ test.describe("RoadTrippers Trip Creation Functionality", () => {
   });
 
   test("Create new trip with one active trip in Basic Tier", async() => {
-    
+    userPage = await homePage.openUserProfile();
+    userProfilePage = new UserProfilePage(userPage);
+    createTripPage = new CreateTripPage(userPage);
+     travelCrewPage = new TravelCrewPage(userPage);
+    attractionLocationsPage = new AttractionLocationsPage(userPage);       
+    itineraryPage = new ItineraryPage(userPage);
+
+    await userProfilePage.clickOnTripPlanner();
+    await itineraryPage.createNewTripFromItinerary();
+    await createTripPage.createQuickLaunchTrip(waypoints[0], waypoints[waypoints.length-1]);
+    let tripLimitMsg = await createTripPage.getTripLimitMsg()
+    let text = "You’ve hit your trip limit! Sign up for a trial to start this itinerary";
+    expect(tripLimitMsg).toBe(text);
+
   })
 });

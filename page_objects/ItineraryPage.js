@@ -24,6 +24,7 @@ export class ItineraryPage {
     }
     this.tripCard = page.locator('div.rt-trip-card-content');
     this.tripName = page.locator('h3.rt-trip-card-name');
+    this.createNewTrip = page.locator('.my-trips button').first();
   }
 
   async closeExploringModal() {
@@ -39,5 +40,10 @@ export class ItineraryPage {
  async getTripName(){
  const tripName =  await this.tripName.textContent();
  return tripName;
+ }
+
+ async createNewTripFromItinerary() {
+   await this.mapActionBar.myTripsBtn.click();
+   await this.createNewTrip.click();
  }
 }
