@@ -2,16 +2,20 @@ import { test, expect } from "@playwright/test";
 import { BasePage } from "../../page_objects/BasePage";
 import { CreateTripPage } from "../../page_objects/CreateTripPage";
 import { ItineraryPage } from "../../page_objects/ItineraryPage";
-import { AutopilotTripPage } from "../../page_objects/AutopilotTripPage";
+import { AutopilotTripPage } from "../../page_objects/AttractionLocationsPage";
 import { UserProfilePage } from "../../page_objects/UserProfilePage";
 import { HomePage } from "../../page_objects/HomePage";
+import {TravelCrewPage} from "../../page_objects/TravelCrewPage"
+import {AttractionLocationsPage} from "../../page_objects/AttractionLocationsPage"
 import { waypoints } from "../../test_data/testData";
 
 test.describe("RoadTrippers Trip Creation Functionality", () => {
   let basePage, createTripPage, itineraryPage, autopilotTripPage, userProfilePage, homePage;
   let userPage;
-  let result;
+  let travelCrewPage;
   let tripName;
+  let attractionLocationsPage;
+  let autoTripPage;
   const baseURL = "https://roadtrippers.com/";
 
   test.beforeEach(async ({ page }) => {
@@ -19,9 +23,6 @@ test.describe("RoadTrippers Trip Creation Functionality", () => {
     homePage = new HomePage(page);
 
     await page.goto(baseURL);
-    //await basePage.handlePromoIframe(page);
-    // Already logged in via storageState — go straight to trips
-    
   });
 
   test("Create a trip with quick launch feature and verify itinerary", async ({ page }) => {
@@ -33,7 +34,7 @@ test.describe("RoadTrippers Trip Creation Functionality", () => {
       autopilotTripPage = new AutopilotTripPage(userPage);
      
 
-      await userProfilePage.handlePromoIframe(userPage)
+      await userProfilePage.checkAndHandlePromoIframe(userPage)
 
     await test.step("Create new trip", async () => {
     await userProfilePage.goToMyTrips(userPage);
@@ -57,4 +58,79 @@ test.describe("RoadTrippers Trip Creation Functionality", () => {
 
     });
   });
+
+   test("Create a trip with auto pilot feature and verify itinerary", async ({ page }) => {
+    userPage = await homePage.openUserProfile();
+    basePage = new BasePage(userPage);
+     userProfilePage = new UserProfilePage(userPage);
+     createTripPage = new CreateTripPage(userPage);
+     travelCrewPage = new TravelCrewPage(userPage);
+    attractionLocationsPage = new AttractionLocationsPage(userPage);       
+    itineraryPage = new ItineraryPage(userPage);
+      await userProfilePage.checkAndHandlePromoIframe(userPage);
+
+    await test.step("Create new trip", async () => {
+    await userProfilePage.goToMyTrips(userPage);
+      await userProfilePage.createTrip();
+      await createTripPage.createTripWithAutopilot(waypoints[0], waypoints[waypoints.length-1]);
+      await createTripPage.getStartedAutoTrip();
+   
+      await createTripPage.selectExistingVehicleAutoTrip();
+      await travelCrewPage.setTravelers("Adults", 2);
+      await createTripPage.nextBtnClick();
+      await createTripPage.nextBtnClick();
+      await attractionLocationsPage.selectAttractions(['Monuments']);
+       await createTripPage.nextBtnClick();
+      await createTripPage.clickNextBtnOnPlacesToVisitPage();
+      await createTripPage.findMyOwnPlaces();
+  
+    });
+
+    await test.step("Launch and verify the trip", async() => {
+      await itineraryPage.verifyTripCreated();
+      tripName = await itineraryPage.getTripName();
+      const waypointName = waypoints[waypoints.length-1];
+      expect(tripName).toContain(waypointName);      
+
+    });
+  });
+
+  test("Create a trip with auto pilot feature and a baby as the only traveller", async ({ page }) => {
+    userPage = await homePage.openUserProfile();
+    basePage = new BasePage(userPage);
+     userProfilePage = new UserProfilePage(userPage);
+     createTripPage = new CreateTripPage(userPage);
+     travelCrewPage = new TravelCrewPage(userPage);
+    attractionLocationsPage = new AttractionLocationsPage(userPage);       
+    itineraryPage = new ItineraryPage(userPage);
+      await userProfilePage.checkAndHandlePromoIframe(userPage);
+
+    await test.step("Create new trip", async () => {
+    await userProfilePage.goToMyTrips(userPage);
+      await userProfilePage.createTrip();
+      await createTripPage.createTripWithAutopilot(waypoints[0], waypoints[waypoints.length-1]);
+      await createTripPage.getStartedAutoTrip();
+   
+      await createTripPage.selectExistingVehicleAutoTrip();
+      await travelCrewPage.setTravelers("Baby", 1);
+      await createTripPage.nextBtnClick();
+      await createTripPage.nextBtnClick();
+      await attractionLocationsPage.selectAttractions(['Monuments']);
+       await createTripPage.nextBtnClick();
+      await createTripPage.clickNextBtnOnPlacesToVisitPage();
+      await createTripPage.findMyOwnPlaces();
+  
+    });
+
+    await test.step("Launch and verify the trip", async() => {
+      await itineraryPage.verifyTripCreated();
+      tripName = await itineraryPage.getTripName();
+      const waypointName = waypoints[waypoints.length-1];
+      expect(tripName).toContain(waypointName);      
+    });
+  });
+
+  test("Create new trip with one active trip in Basic Tier", async() => {
+    
+  })
 });

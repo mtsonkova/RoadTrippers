@@ -1,80 +1,58 @@
-export class TravelCrewPage{
-    constructor(page) {
-        this.page = page;
+export class TravelCrewPage {
+  constructor(page) {
+    this.page = page;
 
-        this.travelCrewSection = {
+    this.travelCrewSection = {
       adults: {
-        leftArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(0)
-          .locator("button")
-          .first(),
-        rightArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(0)
-          .locator("button")
-          .last(),
+        rightArrow: page.locator(".rt-stepper-controls button:has(.icon-plus)").nth(0),
       },
       youngAdults: {
-        leftArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(1)
-          .locator("button")
-          .first(),
-        rightArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(1)
-          .locator("button")
-          .last(),
+        rightArrow: page.locator(".rt-stepper-controls button:has(.icon-plus)").nth(1),
       },
       teens: {
-        leftArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(2)
-          .locator("button")
-          .first(),
-        rightArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(2)
-          .locator("button")
-          .last(),
+        rightArrow: page.locator(".rt-stepper-controls button:has(.icon-plus)").nth(2),
       },
       children: {
-        leftArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(3)
-          .locator("button")
-          .first(),
-        rightArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(3)
-          .locator("button")
-          .last(),
+        rightArrow: page.locator(".rt-stepper-controls button:has(.icon-plus)").nth(3),
       },
       baby: {
-        leftArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(4)
-          .locator("button")
-          .first(),
-        rightArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(4)
-          .locator("button")
-          .last(),
+        rightArrow: page.locator(".rt-stepper-controls button:has(.icon-plus)").nth(4),
       },
       dogs: {
-        leftArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(5)
-          .locator("button")
-          .first(),
-        rightArrow: page
-          .locator(".rt-stepper-controls")
-          .nth(5)
-          .locator("button")
-          .last(),
+        rightArrow: page.locator(".rt-stepper-controls button:has(.icon-plus)").nth(5),
       },
     };
+  }
+
+  
+async setTravelers(travelers, num) {
+    let locatorObj;
+    switch(travelers) {
+        case 'Adults':
+            locatorObj = this.travelCrewSection.adults.rightArrow;
+            break;
+        case 'YoungAdults':
+            locatorObj = this.travelCrewSection.youngAdults.rightArrow;
+            break;
+        case 'Teens':
+            locatorObj = this.travelCrewSection.teens.rightArrow;
+            break;
+        case 'Children':
+            locatorObj = this.travelCrewSection.children.rightArrow;
+            break;
+        case 'Baby':
+            locatorObj = this.travelCrewSection.baby.rightArrow;
+            break;
+        case 'Dogs':
+            locatorObj = this.travelCrewSection.dogs.rightArrow;
+            break;
+        default:
+            throw new Error(`Wrong group: "${travelers}"`);
+    }
+
+    for (let i = 0; i < num; i++) {
+        await locatorObj.click();
     }
 }
+  }
+

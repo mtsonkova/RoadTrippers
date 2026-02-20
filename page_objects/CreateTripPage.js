@@ -1,7 +1,9 @@
 import { BasePage } from "./BasePage";
 import { waypoints } from "../test_data/testData";
+import { TravelCrewPage } from "./TravelCrewPage";
 
 export class CreateTripPage extends BasePage {
+
   constructor(page) {
     super(page);
     this.startingPoint = page.locator("#origin");
@@ -18,9 +20,17 @@ export class CreateTripPage extends BasePage {
     this.createTripBtn = page.getByRole("button", { name: "Create Trip" });
     this.addStopsField = page.locator("div.sidebar .rt-input");
     this.launchTripBtn = page.getByRole("button", { name: "Launch trip" });
+     this.getStartedBtn = page.getByRole("button", { name: "Get started" });
 
     // itinerary section
     this.itineraryBtn = page.locator("#sub-navigation__button--itinerary");
+
+    this.existingVehicleFirst = page.locator('label.uv-selector-vehicle-radio').first();
+
+     this.findPlacesOnMyOwn = page.locator("div.sidebar-actions-buttons button:nth-child(2) div.rt-button-label");
+
+    this.nextBtn = page.locator('.panel-actions button').last()
+    this.nextBtnPlacesToVisit = page.locator('div.rt-button-label span:nth-child(1)')
   }
 
   async setStartPoint(startPoint) {
@@ -55,19 +65,16 @@ export class CreateTripPage extends BasePage {
     await this.setStartPoint(startPoint);
     await this.setDestination(destination);
     await this.selectStartDate();
-    await this.enterStartDate();
     await this.createTripBtn.click();
   }
 
   async createTripWithAutopilot(startPoint, destination) {
-    await this.createTripBtn.click();
+    //await this.createTripBtn.click();
     await this.setStartPoint(startPoint);
     await this.setDestination(destination);
     await this.autopilotOption.click();
     await this.selectStartDate();
-    await this.enterStartDate();
-    const autopilotTripPage = await this.clickAndSwitchToNewTab(createTripBtn);
-    return autopilotTripPage;
+    await this.createTripBtn.click();
   }
 
   async addMaxNumWaypoints() {
@@ -93,5 +100,26 @@ async addWaypoint() {
 
   async launchTrip() {
     await this.launchTripBtn.click();
+  }
+
+  async getStartedAutoTrip() {
+    await this.getStartedBtn.click();
+     await this.nextBtn.click();
+  }
+
+  async selectExistingVehicleAutoTrip() {
+    await this.existingVehicleFirst.click();
+  }
+
+  async nextBtnClick() {
+    await this.nextBtn.click();
+  }
+  
+  async clickNextBtnOnPlacesToVisitPage() {
+    await this.nextBtnPlacesToVisit.click();
+  }
+
+  async findMyOwnPlaces() {
+    await this.findPlacesOnMyOwn.click();
   }
 }
