@@ -76,6 +76,7 @@ After execution, open the Playwright HTML report:
 
 📂 Project Structure
 
+```
 RoadTrippers/
 ├── tests/
 │   └── functional/
@@ -83,6 +84,7 @@ RoadTrippers/
 ├── playwright.config.js
 ├── package.json
 └── README.md
+```
 
 ⚙ Configuration
 
