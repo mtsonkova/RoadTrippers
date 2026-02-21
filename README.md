@@ -45,6 +45,9 @@ cd RoadTrippers
 `npx playwright install`
 
 ▶️ Test Execution
+
+Before starting test execution run save-auth.js file in tests folder and log manually with one of the accounts from test_data file testData.js
+
 `Run Specific Test (Single Worker)`
 
 Linux / macOS
