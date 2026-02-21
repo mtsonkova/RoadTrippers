@@ -1,48 +1,61 @@
-RoadTrippers Automation Test Suite
+# RoadTrippers Automation Test Suite
 
-This repository contains automated functional tests for the RoadTrippers application using Playwright and Node.js.
+This repository contains automated functional tests for the **RoadTrippers** application using **Playwright** and **Node.js**.
 
-🛠 Tech Stack
+---
 
-Node.js
+## 🛠 Tech Stack
 
-Playwright
+- **Node.js**
+- **Playwright**
+- **JavaScript**
+- **npm**
 
-JavaScript
+---
 
-npm
-
-📋 Prerequisites
+## 📋 Prerequisites
 
 Make sure the following are installed on your machine:
 
-Node.js (v18+ recommended)
-Download: https://nodejs.org/
+- **Node.js** (v18+ recommended)  
+  Download: https://nodejs.org/
 
-npm (comes bundled with Node.js)
+- **npm** (comes bundled with Node.js)
 
 Verify installation:
 
+```bash
 node -v
 npm -v
-🚀 Project Setup
+
+## 🚀 Project Setup
 1️⃣ Clone the repository
+
 git clone <repository-url>
 cd RoadTrippers
+
 2️⃣ Install dependencies
 npm install
 3️⃣ Install Playwright browsers
 npx playwright install
 ▶️ Test Execution
 Run Specific Test (Single Worker)
+
 Linux / macOS
+
 npm playwright test tests/functional/roadtrippers.test.js --workers=1
+
 Windows (PowerShell / CMD)
+
 npm playwright test tests\functional\roadtrippers.test.js --workers=1
 Run All Tests
+
 Linux / macOS
+
 npx playwright test
+
 Windows
+
 npx playwright test
 📊 View Test Report
 
@@ -80,8 +93,11 @@ Parallel execution
 To run tests with browser UI:
 
 Linux / macOS
+
 npx playwright test --headed
+
 Windows
+
 npx playwright test --headed
 🔁 CI Friendly Mode
 
@@ -105,3 +121,11 @@ Headless & headed modes
 Make sure browsers are installed before running tests.
 
 Always run npm install after pulling new changes.
+
+
+You can now **copy & paste this directly into your GitHub README.md file**. If you'd like, I can also add:
+
+- GitHub Actions CI pipeline
+- Docker setup
+- Allure reporting
+- Environment-based config setup
