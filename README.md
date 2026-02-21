@@ -27,41 +27,50 @@ Verify installation:
 ```bash
 node -v
 npm -v
+```
 
 ## 🚀 Project Setup
 1️⃣ Clone the repository
 
+```
 git clone <repository-url>
 cd RoadTrippers
+```
 
 2️⃣ Install dependencies
-npm install
+
+`npm install`
+
 3️⃣ Install Playwright browsers
-npx playwright install
+`npx playwright install`
+
 ▶️ Test Execution
-Run Specific Test (Single Worker)
+`Run Specific Test (Single Worker)`
 
 Linux / macOS
 
-npm playwright test tests/functional/roadtrippers.test.js --workers=1
+`npm playwright test tests/functional/roadtrippers.test.js --workers=1`
 
 Windows (PowerShell / CMD)
 
-npm playwright test tests\functional\roadtrippers.test.js --workers=1
+`npm playwright test tests\functional\roadtrippers.test.js --workers=1`
+
 Run All Tests
 
 Linux / macOS
 
-npx playwright test
+`npx playwright test`
 
 Windows
 
-npx playwright test
+`npx playwright test`
+
 📊 View Test Report
 
 After execution, open the Playwright HTML report:
 
-npx playwright show-report
+`npx playwright show-report`
+
 📂 Project Structure
 RoadTrippers/
 ├── tests/
@@ -94,16 +103,18 @@ To run tests with browser UI:
 
 Linux / macOS
 
-npx playwright test --headed
+`npx playwright test --headed`
 
 Windows
 
-npx playwright test --headed
+`npx playwright test --headed`
+
 🔁 CI Friendly Mode
 
 For CI pipelines:
 
-npx playwright test --workers=1
+`npx playwright test --workers=1`
+
 🧪 Framework Features
 
 End-to-end functional testing
