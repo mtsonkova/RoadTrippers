@@ -132,3 +132,7 @@ Headless & headed modes
 Make sure browsers are installed before running tests.
 
 Always run npm install after pulling new changes.
+
+Test Results 
+<img width="1128" height="506" alt="image" src="https://github.com/user-attachments/assets/b60eb78c-52c8-46f4-b8dc-893bff1ccd10" />
+
