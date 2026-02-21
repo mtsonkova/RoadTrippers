@@ -121,11 +121,3 @@ Headless & headed modes
 Make sure browsers are installed before running tests.
 
 Always run npm install after pulling new changes.
-
-
-You can now **copy & paste this directly into your GitHub README.md file**. If you'd like, I can also add:
-
-- GitHub Actions CI pipeline
-- Docker setup
-- Allure reporting
-- Environment-based config setup
