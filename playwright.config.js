@@ -25,12 +25,19 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+ 
   use: {
      storageState: 'playwright/.auth/user.json',
     baseURL: 'https://roadtrippers.com/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "on-first-retry",
+    trace: 'retain-on-failure',
+
+    // Capture screenshot only on failure
+    screenshot: 'only-on-failure',
+
+    // Record video only when test fails
+    video: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */

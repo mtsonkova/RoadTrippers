@@ -2,7 +2,6 @@ import { test, expect } from "@playwright/test";
 import { BasePage } from "../../page_objects/BasePage";
 import { CreateTripPage } from "../../page_objects/CreateTripPage";
 import { ItineraryPage } from "../../page_objects/ItineraryPage";
-import { AutopilotTripPage } from "../../page_objects/AttractionLocationsPage";
 import { UserProfilePage } from "../../page_objects/UserProfilePage";
 import { HomePage } from "../../page_objects/HomePage";
 import {TravelCrewPage} from "../../page_objects/TravelCrewPage"
@@ -10,12 +9,13 @@ import {AttractionLocationsPage} from "../../page_objects/AttractionLocationsPag
 import { waypoints } from "../../test_data/testData";
 
 test.describe("RoadTrippers Trip Creation Functionality", () => {
-  let basePage, createTripPage, itineraryPage, autopilotTripPage, userProfilePage, homePage;
+  test.slow();
+  let basePage, createTripPage, itineraryPage, userProfilePage, homePage;
   let userPage;
   let travelCrewPage;
   let tripName;
   let attractionLocationsPage;
-  let autoTripPage;
+
   const baseURL = "https://roadtrippers.com/";
 
   test.beforeEach(async ({ page }) => {
@@ -31,8 +31,7 @@ test.describe("RoadTrippers Trip Creation Functionality", () => {
      userProfilePage = new UserProfilePage(userPage);
       createTripPage = new CreateTripPage(userPage);
       itineraryPage = new ItineraryPage(userPage);
-      autopilotTripPage = new AutopilotTripPage(userPage);
-     
+   
 
       await userProfilePage.checkAndHandlePromoIframe(userPage)
 
@@ -83,6 +82,7 @@ test.describe("RoadTrippers Trip Creation Functionality", () => {
        await createTripPage.nextBtnClick();
       await createTripPage.clickNextBtnOnPlacesToVisitPage();
       await createTripPage.findMyOwnPlaces();
+      await itineraryPage.closeExploringModal();
   
     });
 
@@ -119,6 +119,7 @@ test.describe("RoadTrippers Trip Creation Functionality", () => {
        await createTripPage.nextBtnClick();
       await createTripPage.clickNextBtnOnPlacesToVisitPage();
       await createTripPage.findMyOwnPlaces();
+      await itineraryPage.closeExploringModal();
   
     });
 
